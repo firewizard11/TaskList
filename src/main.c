@@ -38,6 +38,10 @@ int main() {
 	printf("Task 1: %s\n", test_list.list[0].name);
 	printf("Task 2: %s\n", test_list.list[1].name);
 
+	editTask(&test_list, 1, "task3");
+
+	printf("Task 3: %s\n", test_list.list[1].name);
+
 	return 0;
 }
 
@@ -61,7 +65,8 @@ int addTask(TaskList* list, Task task) {
 }
 
 int editTask(TaskList* list, int idx, char* new_name) {
-	
+	strcpy(list->list[idx].name, new_name);	
+	return 0;
 }
 
 int removeTask(TaskList* list, int idx);
