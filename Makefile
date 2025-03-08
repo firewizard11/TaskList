@@ -4,6 +4,7 @@ bin/tasks: src/main.c
 
 clean:
 	rm bin/tasks
+	rm .tasks.txt
 
 run:
 	bin/tasks
