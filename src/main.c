@@ -3,10 +3,11 @@
 #include <stdlib.h>
 
 #define MAX_TASK 20
+#define MAX_CHAR 10
 
 
 typedef struct {
-	char name[10];
+	char name[MAX_CHAR];
 } Task;
 
 typedef struct {
@@ -28,22 +29,10 @@ void printTaskList(TaskList* list);
 
 
 int main() {
-	Task test_task = createTask("task1");
-	TaskList test_list = createTaskList();
-	
-	addTask(&test_list, test_task);
-	addTask(&test_list, createTask("task2"));
-
-	printf("Number of Tasks: %d\n", test_list.len);
-	printf("Task 1: %s\n", test_list.list[0].name);
-	printf("Task 2: %s\n", test_list.list[1].name);
-
-	editTask(&test_list, 1, "task3");
-
-	printf("Task 3: %s\n", test_list.list[1].name);
-
+	TaskList test_list = loadTaskList();
+	removeTask(&test_list, 0);
 	printTaskList(&test_list);
-
+	saveTaskList(&test_list);
 	return 0;
 }
 
@@ -71,12 +60,46 @@ int editTask(TaskList* list, int idx, char* new_name) {
 	return 0;
 }
 
-int removeTask(TaskList* list, int idx);
+int removeTask(TaskList* list, int idx) {
+	if (idx == list->len - 1) {
+		list->len--;
+		return 0;
+	}
+
+	for (int i = idx; i < list->len; i++) {
+		list->list[i] = list->list[i + 1];	
+	}
+	list->len--;	
+
+	return 0;
+}
 
 void printTaskList(TaskList* list) {
 	for (int i = 0; i < list->len; i++) {
 		printf("[%d] %s\n", i + 1, list->list[i].name);
 	}
+}
+
+void saveTaskList(TaskList* list) {
+	FILE* fp = fopen(".tasks.txt", "w");
+
+	for (int i = 0; i < list->len; i++) {
+		fputs(strcat(list->list[i].name, "\n"), fp);
+	}
+}
+
+TaskList loadTaskList() {
+	TaskList new_list = createTaskList();
+	FILE* fp = fopen(".tasks.txt", "r");
+	char line[MAX_CHAR];
+
+	if (fp == NULL) {
+		return new_list;
+	}
+
+	fgets(&line, MAX_CHAR, fp);	
+
+	return new_list;
 }
 
 
