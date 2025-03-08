@@ -90,16 +90,19 @@ void saveTaskList(TaskList* list) {
 
 TaskList loadTaskList() {
 	TaskList new_list = createTaskList();
-	FILE* fp = fopen(".tasks.txt", "r");
-	char line[MAX_CHAR];
+	FILE* fp = fopen(".tasks.txt", "w");
 
 	if (fp == NULL) {
+		printf("Error: File doesn't exist\n");
 		return new_list;
 	}
 
-	fgets(&line, MAX_CHAR, fp);	
+	char line[MAX_CHAR];
+
+	while (fgets(line, MAX_CHAR, fp)) {
+		printf("%s", line);
+	}
 
 	return new_list;
 }
-
 
