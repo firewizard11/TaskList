@@ -21,10 +21,10 @@ int addTask(TaskList* list, Task task);
 int editTask(TaskList* list, int idx, char* new_name);
 int removeTask(TaskList* list, int idx);
 
-void saveTaskList(TaskList list);
+void saveTaskList(TaskList* list);
 TaskList loadTaskList();
 
-void printTaskList(TaskList list);
+void printTaskList(TaskList* list);
 
 
 int main() {
@@ -41,6 +41,8 @@ int main() {
 	editTask(&test_list, 1, "task3");
 
 	printf("Task 3: %s\n", test_list.list[1].name);
+
+	printTaskList(&test_list);
 
 	return 0;
 }
@@ -71,9 +73,10 @@ int editTask(TaskList* list, int idx, char* new_name) {
 
 int removeTask(TaskList* list, int idx);
 
-void saveTaskList(TaskList list);
-TaskList loadTaskList();
-
-void printTaskList(TaskList list);
+void printTaskList(TaskList* list) {
+	for (int i = 0; i < list->len; i++) {
+		printf("[%d] %s\n", i + 1, list->list[i].name);
+	}
+}
 
 
