@@ -1,41 +1,59 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define NAME_LEN 50
+#define MAX_TASK 20
 
 
 typedef struct {
-	char name[NAME_LEN];
+	char name[10];
 } Task;
 
-Task createTask(char name[NAME_LEN]);
-void printTask(Task task);
+typedef struct {
+	Task list[MAX_TASK];
+	int len;
+} TaskList;
+
+Task createTask(char* name);
+TaskList createTaskList();
+
+int addTask(TaskList* list, Task task);
+int editTask(TaskList* list, int idx);
+int removeTask(TaskList* list, int idx);
+
+void saveTaskList(TaskList list);
+TaskList loadTaskList();
+
+void printTaskList(TaskList list);
 
 
 int main() {
-	Task test_task;
-	char name[NAME_LEN];
-
-	printf("Enter Task Name: ");
-	scanf("%s", name);
-	if (strlen(name) >= NAME_LEN) {
-		printf("Error: Name can be 50 chars or less\n");
-		return 1;
-	} 
+	Task test_task = createTask("task1");
+	TaskList test_list = createTaskList();
 	
-	test_task = createTask(name);
-	printTask(test_task);
-
 	return 0;
 }
 
 
-Task createTask(char name[NAME_LEN]) {
+Task createTask(char* name) {
 	Task new_task;
 	strcpy(new_task.name, name);
 	return new_task;
 }
 
-void printTask(Task task) {
-	printf("Name: %s\n", task.name);
+TaskList createTaskList() {
+	TaskList new_list;
+	new_list.len = 0;
+	return new_list;
 }
+
+int addTask(TaskList* list, Task task);
+int editTask(TaskList* list, int idx);
+int removeTask(TaskList* list, int idx);
+
+void saveTaskList(TaskList list);
+TaskList loadTaskList();
+
+void printTaskList(TaskList list);
+
+
